@@ -1,0 +1,24 @@
+{
+  "name": "campo-minado",
+  "version": "1.0.0",
+  "description": "Jogo de campo minado construído com Electron js",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rogeriomattos/campo-minado.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rogeriomattos/campo-minado/issues"
+  },
+  "homepage": "https://github.com/rogeriomattos/campo-minado#readme",
+  "devDependencies": {
+    "electron": "^10.1.2"
+  }
+}
