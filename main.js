@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require('electron')
 function createWindow () {
   // Cria uma janela de navegação.
   const win = new BrowserWindow({
-    
+    width: 400,
     webPreferences: {
       nodeIntegration: true
     }

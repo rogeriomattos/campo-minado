@@ -5,12 +5,12 @@ body {
 }
 
 #campo-minado {
-    padding: 10px;
+    
 }
 
 #campo-minado header {
-    background: #66bdf0;
-    border:solid 1px #4f9fce;
+    
+    border:solid 1px #636363;
     padding: 5px 10px;
     border-radius: 4px;
     margin-bottom: 10px;
@@ -25,9 +25,7 @@ body {
 }
 
 #campo-minado .game {
-    padding: 10px;
-    background: #66bdf0;
-    border:solid 1px #4f9fce;
+
 }
 
 #campo-minado .game .row { 
@@ -38,14 +36,14 @@ body {
 #campo-minado .game .row .squad { 
     width: 35px;
     height: 35px;
+    box-sizing: border-box;
     vertical-align: top;
     background: #a5a5a5;
-    border: outset 2px #ddd;
+    border: outset 3.5px #ddd;
     line-height: 35px;
     text-align: center;
     font-weight: 700;
     cursor: pointer;
-    margin: .5px;
 }
 
 #campo-minado .game .row .squad:hover { 
@@ -53,13 +51,13 @@ body {
 }
 
 #campo-minado .game .row .squad.isActive { 
-    background: #8a8a8a;
+    background: #a5a5a5;
     cursor: default;
-    border-style: inset;
+    border: solid #696969 .5px;
 }
 
 #campo-minado .game .row .squad.isActive:hover { 
-    background: #8a8a8a;
+    background: #a5a5a5;
 }
 
 

@@ -1,10 +1,13 @@
+const BOMBS_TOTAL = 4;
+const DIMENSOES = {rows: 10, columns: 10};
+
 const insertBombs = (matrix) => {
     
     let newMatrix = matrix;
     if(matrix.length > 0){
         let bombPositions = [];
 
-        while(bombPositions.length < 10) {
+        while(bombPositions.length < BOMBS_TOTAL) {
             const i = Math.floor(Math.random() * matrix.length);
             const j = Math.floor(Math.random() * matrix[0].length);
 
@@ -79,7 +82,7 @@ const render = (matrix) => {
                 squad.innerHTML = (matrix[i][j].value)?matrix[i][j].value:'';
                 squad.className = squad.className + ' isActive';
             }    
-
+            
             if(matrix[i][j].value == 'B') {
                 squad.className = squad.className + ' bomb';
             }
@@ -102,6 +105,54 @@ const render = (matrix) => {
     }
 };
 
+const activeBlankSquad = (matrix, i, j) => {
+    if(!matrix[i][j].isActive) {
+        matrix[i][j].isActive = true;
+       
+        if(!matrix[i][j].value){
+            if(i >= 0 && i <= matrix.length) {
+                activeBlankTop(matrix, i, j);
+                activeBlankBottom(matrix, i, j);
+            }
+
+            if(j >= 0 && j <= matrix[i].length) {
+                activeBlankLeft(matrix, i, j);
+                activeBlankRight(matrix, i, j);
+            }
+        }
+        refresh(matrix);
+    }
+};
+
+const activeBlankTop = (matrix, i, j) => {
+    if(i > 0)
+    {
+        const top = i-1;
+        activeBlankSquad(matrix, top, j);
+    }
+}
+const activeBlankBottom = (matrix, i, j) => {
+    if(i < matrix.length-1)
+    {
+        const bottom = i+1;
+        activeBlankSquad(matrix, bottom, j);
+    }
+}
+const activeBlankLeft = (matrix, i, j) => {
+    if(j > 0)
+    {
+        const left = j-1;
+        activeBlankSquad(matrix, i, left);
+    }
+}
+const activeBlankRight = (matrix, i, j) => {
+    if(j < matrix[i].length-1)
+    {
+        const right = j+1;
+        activeBlankSquad(matrix, i, right);
+    }
+}
+
 const activeSquad = (matrix, i, j) => {
     if(!matrix[i][j].isActive) {
         if(matrix[i][j].value == 'B')
@@ -117,34 +168,6 @@ const activeSquad = (matrix, i, j) => {
     }
 };
 
-const activeBlankSquad = (matrix, i, j) => { 
-    
-    for(let x = j; x < matrix[j].length; x++){
-        matrix[i][x].isActive = true;
-        if(matrix[i][x].value)
-            break;
-    }
-
-    for(let x = j; x >= 0; x--){
-        matrix[i][x].isActive = true;
-        if(matrix[i][x].value)
-            break;
-    }
-
-    for(let y = i; y < matrix.length; y++){
-        matrix[y][j].isActive = true;
-        if(matrix[y][j].value)
-            break;
-    }
-
-    for(let y = i; y >= 0; y--){
-        matrix[y][j].isActive = true;
-        if(matrix[y][j].value)
-            break;
-    }
-
-    refresh(matrix);
-};
 
 const activeAllSquad = (matrix) => {
     return matrix.map((row)=>(row.map((squad)=> ({...squad, isActive: true}))));
@@ -160,7 +183,7 @@ const refresh = (matrix) => {
 };
 
 const start = () => {
-    render(createGame(10, 10)); 
+     alert('start');
 };
 
 const gameOver = (matrix) => {
@@ -169,11 +192,11 @@ const gameOver = (matrix) => {
     alert('GAME OVER');
 };
 
-start();    
+render(createGame(DIMENSOES.rows, DIMENSOES.columns));  
 
-document.getElementById('btn-start')
+document.getElementById('btn-new-game')
 .addEventListener('click', ()=> {
     clear();
-    start();
+    render(createGame(DIMENSOES.rows, DIMENSOES.columns));  
 });
 
