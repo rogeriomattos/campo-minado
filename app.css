@@ -40,9 +40,29 @@ body {
     height: 35px;
     vertical-align: top;
     background: #a5a5a5;
-    border: solid 2px #ddd;
+    border: outset 2px #ddd;
+    line-height: 35px;
+    text-align: center;
+    font-weight: 700;
+    cursor: pointer;
+    margin: .5px;
 }
 
 #campo-minado .game .row .squad:hover { 
     background: #8f8f8f;
-} 
+}
+
+#campo-minado .game .row .squad.isActive { 
+    background: #8a8a8a;
+    cursor: default;
+    border-style: inset;
+}
+
+#campo-minado .game .row .squad.isActive:hover { 
+    background: #8a8a8a;
+}
+
+
+#campo-minado .game .row .squad.bomb {
+    color: red;
+}
