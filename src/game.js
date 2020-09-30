@@ -99,9 +99,10 @@ const render = (matrix) => {
             squad.addEventListener('click', () => {
                 const count = isActiveCount(matrix);
 
-                if(count == 0)
-                    start();
-                
+                if(count == 0){
+                    timerGame.pause();
+                    timerGame.resume();
+                }
                 activeSquad(matrix, i, j);
             });
 
@@ -246,7 +247,8 @@ const timerGame = timer(() => {
 const start = () => {
     count = 0;
     timerGame.pause();
-    timerGame.resume();
+    let timerElement = document.getElementById('timer-game');
+    timerElement.innerHTML = '00:00';
 };
 
 const gameOver = (matrix) => {
