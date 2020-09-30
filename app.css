@@ -5,7 +5,7 @@ body {
 }
 
 #campo-minado {
-    
+
 }
 
 #campo-minado header {
@@ -14,6 +14,18 @@ body {
     padding: 5px 10px;
     border-radius: 4px;
     margin-bottom: 10px;
+}
+
+#campo-minado .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#campo-minado .actions #timer-game{
+    font-size: 20px;
+    padding: 10px 20px;
+    border: solid 1px #000;
 }
 
 #campo-minado .actions input[type="button"] {

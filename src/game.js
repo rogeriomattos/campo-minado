@@ -96,13 +96,27 @@ const render = (matrix) => {
                 squad.style.color = 'yellow';
             }
 
-            squad.addEventListener('click', ()=> {
+            squad.addEventListener('click', () => {
+                const count = isActiveCount(matrix);
+
+                if(count == 0)
+                    start();
+                
                 activeSquad(matrix, i, j);
             });
 
             row.appendChild(squad);
         }
     }
+};
+
+const isActiveCount =  (matrix) =>{
+    let count = 0;
+    for(let i = 0; i < matrix.length; i++)
+        for(let j = 0; j < matrix[i].length; j++)
+            if(matrix[i][j].isActive)
+                count++;
+    return count;
 };
 
 const activeBlankSquad = (matrix, i, j) => {
@@ -182,11 +196,61 @@ const refresh = (matrix) => {
     render(matrix);
 };
 
+
+const timer = (callback, delay) => {
+    var timerId;
+    var start;
+    var remaining = delay;
+  
+    const pause =  () => {
+      window.clearTimeout(timerId);
+      remaining -= new Date() - start;
+    };
+  
+    const resume =  () => {
+      start = new Date();
+      timerId = window.setTimeout(() => {
+        remaining = delay;
+        resume();
+        callback();
+      }, remaining);
+    };
+
+    
+  
+    const reset = () => {
+      remaining = delay;
+    };
+
+    return {
+        pause, 
+        resume, 
+        reset
+    };
+};
+  
+  
+let count = 0;
+
+const timerGame = timer(() => {
+    count++;
+    
+    let timerElement = document.getElementById('timer-game');
+
+    const minutes = Math.floor(count / 60);
+    const seconds = count - (minutes * 60);
+    
+    timerElement.innerHTML = ((minutes < 10)?'0':'') + minutes + ':' + ((seconds < 10)?'0':'') + seconds;
+}, 1000);
+
 const start = () => {
-     alert('start');
+    count = 0;
+    timerGame.pause();
+    timerGame.resume();
 };
 
 const gameOver = (matrix) => {
+    timerGame.pause();
     matrix = activeAllSquad(matrix);
     refresh(matrix);
     alert('GAME OVER');
@@ -197,6 +261,8 @@ render(createGame(DIMENSOES.rows, DIMENSOES.columns));
 document.getElementById('btn-new-game')
 .addEventListener('click', ()=> {
     clear();
+    start();
     render(createGame(DIMENSOES.rows, DIMENSOES.columns));  
+
 });
 
