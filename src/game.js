@@ -104,7 +104,7 @@ const render = (matrix) => {
             }
 
             squad.addEventListener('click', ( event) => {
-                console.log(event);
+                
                 const count = isActiveCount(matrix);
 
                 if(count == 0){
@@ -115,8 +115,8 @@ const render = (matrix) => {
             });
             squad.addEventListener('contextmenu', (e)=>{
                 e.preventDefault();
-                console.log('click direito');
-                if(matrix[i][j].isActive)
+                
+                if(matrix[i][j].isActive || matrix[i][j].isFlaged)
                     matrix[i][j].isFlaged = false;
                 else
                     matrix[i][j].isFlaged = true;
