@@ -56,7 +56,7 @@ const createGame = (rows, columns) => {
         matrix.push([]);
         for(let j = 0; j < columns; j++)
         {
-            matrix[i].push({value: undefined, isActive: false});
+            matrix[i].push({value: undefined, isActive: false, isFlaged: false});
         }
     }
 
@@ -82,21 +82,29 @@ const render = (matrix) => {
                 squad.innerHTML = (matrix[i][j].value)?matrix[i][j].value:'';
                 squad.className = squad.className + ' isActive';
             }    
+
+            if(!matrix[i][j].isActive && matrix[i][j].isFlaged){
+                squad.innerHTML = 'F';
+                squad.className = squad.className + ' isFlaged';
+            }else {
+                squad.classList.remove('isFlaged');
+            }
             
-            if(matrix[i][j].value == 'B') {
+            if(matrix[i][j].value == 'B' && matrix[i][j].isActive) {
                 squad.className = squad.className + ' bomb';
             }
-            if(matrix[i][j].value == 1) {
+            if(matrix[i][j].value == 1 && matrix[i][j].isActive) {
                 squad.style.color = 'blue';
             }
-            if(matrix[i][j].value == 2) {
+            if(matrix[i][j].value == 2 && matrix[i][j].isActive) {
                 squad.style.color = 'green';
             }
-            if(matrix[i][j].value == 3) {
+            if(matrix[i][j].value == 3 && matrix[i][j].isActive) {
                 squad.style.color = 'yellow';
             }
 
-            squad.addEventListener('click', () => {
+            squad.addEventListener('click', ( event) => {
+                console.log(event);
                 const count = isActiveCount(matrix);
 
                 if(count == 0){
@@ -105,7 +113,16 @@ const render = (matrix) => {
                 }
                 activeSquad(matrix, i, j);
             });
+            squad.addEventListener('contextmenu', (e)=>{
+                e.preventDefault();
+                console.log('click direito');
+                if(matrix[i][j].isActive)
+                    matrix[i][j].isFlaged = false;
+                else
+                    matrix[i][j].isFlaged = true;
 
+                refresh(matrix);
+            });
             row.appendChild(squad);
         }
     }
