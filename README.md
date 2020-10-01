@@ -2,8 +2,9 @@
 <p align="center">Jogo de campo minado construído com Electron js</p>
 
 <p align="center">
+  <a href="#pré-requisitos">Pré-requisitos</a> • 
   <a href="#como-instalar">Como Instalar</a> •
-  <a href="#licença">Licença</a> •
+  <a href="#licença">Licença</a>
 </p>
 
 <p align="center">
@@ -14,6 +15,11 @@
   
   <img  width="30%" src="./demos/3_tela_final.PNG" />
 </p>
+
+### Pré-requisitos
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+
+[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/). 
 
 ### Como instalar
 Primeiro baixe o repositório para o seu computador, como mostra abaixo:
