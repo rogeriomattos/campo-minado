@@ -194,7 +194,12 @@ const clear = () => {
 
 const refresh = (matrix) => {
     clear();
-    render(matrix);
+    if(verifyVictory(matrix)){
+        renderVictory(matrix);
+    }
+    else
+        render(matrix);
+
 };
 
 
@@ -255,7 +260,22 @@ const gameOver = (matrix) => {
     timerGame.pause();
     matrix = activeAllSquad(matrix);
     refresh(matrix);
-    alert('GAME OVER');
+    alert('GAME OVER'); 
+};
+
+const verifyVictory = (matrix) => {
+    const activeCount = isActiveCount(matrix);
+
+    const squadCount = DIMENSOES.rows * DIMENSOES.columns;
+
+    return squadCount - activeCount == BOMBS_TOTAL;
+};
+
+const renderVictory = (matrix) => {
+    timerGame.pause();
+    matrix = activeAllSquad(matrix);
+    render(matrix);
+    alert('Você venceu');
 };
 
 render(createGame(DIMENSOES.rows, DIMENSOES.columns));  
