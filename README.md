@@ -46,6 +46,15 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Electron](https://www.electronjs.org/)
 - [Node.js](https://nodejs.org/en/)
 
+
+### Autor
+
+Feito por Rogerio Mattos 👋🏽 Entre em contato!
+
+[![Twitter Badge](https://img.shields.io/twitter/url?color=%231DA1F2&label=%40DevRogerio&style=social&url=https%3A%2F%2Ftwitter.com%2FDevRogerio)](https://twitter.com/DevRogerio) 
+
+
+
 ### Licença
 Este projeto pode ser usado por qualquer pessoa! Licença MIT
 
