@@ -51,7 +51,10 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 Feito por Rogerio Mattos 👋🏽 Entre em contato!
 
-[![Twitter Badge](https://img.shields.io/twitter/url?color=%231DA1F2&label=%40DevRogerio&style=social&url=https%3A%2F%2Ftwitter.com%2FDevRogerio)](https://twitter.com/DevRogerio) 
+[![Twitter Badge](https://img.shields.io/badge/twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/DevRogerio) 
+
+[![Linkedin Badge](https://img.shields.io/badge/linkedin-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rogerio-almeida-de-mattos/) 
+
 
 
 
