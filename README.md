@@ -4,6 +4,7 @@
 <p align="center">
   <a href="#pré-requisitos">Pré-requisitos</a> • 
   <a href="#como-instalar">Como Instalar</a> •
+  <a href="#tecnologias">Tecnologias</a> •
   <a href="#licença">Licença</a>
 </p>
 
@@ -37,6 +38,13 @@ Por último, para executar o jogo basta rodar o seguinte comando:
 ```bash
   npm start
 ```
+
+### Tecnologias
+
+As seguintes ferramentas foram usadas na construção do projeto:
+
+- [Electron](https://www.electronjs.org/)
+- [Node.js](https://nodejs.org/en/)
 
 ### Licença
 Este projeto pode ser usado por qualquer pessoa! Licença MIT
