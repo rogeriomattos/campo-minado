@@ -1,5 +1,6 @@
-# Campo minado :bomb::video_game:
-Jogo de campo minado construído com Electron js
+<h1 align="center">:video_game: Campo minado :bomb:</h1>
+<p align="center">Jogo de campo minado construído com Electron js</p>
+
 
 ### Como executar o jogo
 Primeiro baixe o repositório para o seu computador, como mostra abaixo:
