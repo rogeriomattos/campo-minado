@@ -1,51 +1,69 @@
-const BOMBS_TOTAL = 4;
-const DIMENSOES = {rows: 10, columns: 10};
+const BOMBS_TOTAL = 10;
+const DIMENSOES = {rows: 9, columns: 9};
+const BOMB_IMG_BASE_64 = 'data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYwIDYwIiB2aWV3Qm94PSIwIDAgNjAgNjAiPjxwYXRoIGQ9Ik01MC40NTAyNTYzIDEwLjA3MTQxMTFjLS4xOTAwMDI0LS4zODk5NTM2LS42MTk5OTUxLS41OTk5NzU2LTEuMDQwMDM5MS0uNTM5OTc4bC0zLjk2OTk3MDcuNjE5OTk1MUw0My42MzAyNDkgNi41ODE0MjA5Yy0uMTkwMDAyNC0uMzkwMDE0Ni0uNjA5OTg1NC0uNjA5OTg1NC0xLjAzOTk3OC0uNTM5OTc4LS40MzAwNTM3LjA1OTk5NzYtLjc3MDAxOTUuMzk5OTYzNC0uODQwMDI2OS44MzAwMTcxbC0uNjQwMDE0NiAzLjk0OTk1MTItMy45Njk5NzA3LjYxOTk5NTFjLS40MjAwNDM5LjA3MDAwNzMtLjc2MDAwOTguNDAwMDI0NC0uODMwMDE3MS44MzAwMTcxcy4xNTAwMjQ0Ljg1MDAzNjYuNTMwMDI5MyAxLjA0OTk4NzhsMS4zNTUxNjM2LjY5Mjc0OWMtLjA5ODQ0OTcuMDQ5NjIxNi0uMTk2Nzc3My4xMDgyNzY0LS4yOTUxNjYuMTY3Mjk3NC0yLjEyMDA1NjIgMS4yODk5NzgtMy4zMjAwMDczIDQuMDcwMDA3My0zLjg3MDA1NjIgNS42OTk5NTEybC0yLjkyOTk5MjctMS42NTk5NzMxYy0uNDc5OTgwNS0uMjcwMDE5NS0xLjA4OTk2NTgtLjA5OTk3NTYtMS4zNjk5OTUxLjM4MDAwNDlsLTEuNDUwMDEyMiAyLjU0OTk4NzhjMS44ODAwMDQ5LjM1MDAzNjYgMy43MDAwMTIyIDEuMDIwMDE5NSA1LjM4MDAwNDkgMS45NzAwMzE3IDEuNzEwMDIyLjk2OTk3MDcgMy4yMDAwMTIyIDIuMTkwMDAyNCA0LjQ0MDAwMjQgMy41ODk5NjU4bDEuNDUwMDEyMi0yLjU1OTk5NzZjLjI3MDAxOTUtLjQ3OTk4MDUuMTAwMDM2Ni0xLjA4OTk2NTgtLjM4MDAwNDktMS4zNTk5ODU0bC0zLjM1OTk4NTQtMS45MDAwMjQ0Yy40NTAwMTIyLTEuNDc5OTgwNSAxLjUtNC4wMTAwMDk4IDMuMTQwMDE0Ni01LjAxMDAwOTguNDQ5OTUxMi0uMjc5OTY4My45Mjk5MzE2LS40MTk5ODI5IDEuNDE5ODYwOC0uNDE5OTgyOWwtLjU4OTkwNDggMy42NTAwMjQ0Yy0uMDY5OTQ2My40Mjk5OTI3LjE0MDAxNDYuODQ5OTc1Ni41MzAwMjkzIDEuMDQ5OTg3OC4xNDAwMTQ2LjA3MDAwNzMuMjk5OTg3OC4xMDk5ODU0LjQ1MDAxMjIuMTA5OTg1NC4yNjAwMDk4IDAgLjUxOTk1ODUtLjA5OTk3NTYuNzA5OTYwOS0uMjg5OTc4bDIuODQwMDI2OS0yLjgzMDAxNzEgMy41NzAwMDczIDEuODMwMDE3MWMuMzkwMDE0Ni4yMDAwMTIyLjg1OTk4NTQuMTMwMDA0OSAxLjE1OTk3MzEtLjE3OTk5MjcuMzA5OTk3Ni0uMjk5OTg3OC4zOTAwMTQ2LS43NzAwMTk1LjE5MDAwMjQtMS4xNjAwMzQybC0xLjc5OTk4NzgtMy41Nzk5NTYxIDIuODQwMDI2OS0yLjgzMDAxNzFDNTAuNTcwMjUxNSAxMC45MjE0NDc4IDUwLjY1MDI2ODYgMTAuNDYxNDI1OCA1MC40NTAyNTYzIDEwLjA3MTQxMTF6TTMyLjY3MDIyNzEgMjQuODYxNDUwMmMtNy40Njk5NzA3LTQuMjMwMDQxNS0xNi45ODk5OTAyLTEuNTkwMDI2OS0yMS4yMTk5NzA3IDUuODc5OTQzOC00LjIyMDAzMTcgNy40NzAwMzE3LTEuNTgwMDE3MSAxNi45OTAwNTEzIDUuODkwMDE0NiAyMS4yMjAwMzE3IDIuNDA5OTczMSAxLjM1OTk4NTQgNS4wMzk5NzggMi4wMTAwMDk4IDcuNjM5OTUzNiAyLjAxMDAwOTggNS40Mjk5OTI3IDAgMTAuNzEwMDIyLTIuODQwMDI2OSAxMy41NzAwMDczLTcuOTAwMDI0NEM0Mi43ODAyMTI0IDM4LjYwMTQ0MDQgNDAuMTQwMjU4OCAyOS4wOTE0MzA3IDMyLjY3MDIyNzEgMjQuODYxNDUwMnpNMjAuOTYwMjY2MSA0Ny41OTE0MzA3Yy0uMTgwMDUzNy4zMjAwMDczLS41MjAwMTk1LjUtLjg2OTk5NTEuNS0uMTcwMDQzOSAwLS4zNDAwMjY5LS4wNDAwMzkxLS40OTAwNTEzLS4xMzAwMDQ5LTUuNDQ5OTUxMi0zLjA4MDAxNzEtNy4zODAwMDQ5LTEwLjAyMDAxOTUtNC4yODk5NzgtMTUuNDcwMDMxNy4yNzAwMTk1LS40Nzk5ODA1Ljg4MDAwNDktLjY0OTk2MzQgMS4zNTk5ODU0LS4zNzk5NDM4LjQ4MDA0MTUuMjY5OTU4NS42NTAwMjQ0Ljg3OTk0MzguMzgwMDA0OSAxLjM1OTk4NTQtMi41Mzk5NzggNC40ODk5OTAyLS45NTk5NjA5IDEwLjIwOTk2MDkgMy41MzAwMjkzIDEyLjc1QzIxLjA2MDI0MTcgNDYuNDkxMzk0IDIxLjIzMDIyNDYgNDcuMTAxNDQwNCAyMC45NjAyNjYxIDQ3LjU5MTQzMDd6Ii8+PC9zdmc+';
+const FLAG_IMG_BASE_64 = 'data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMjMuMjgsMTRsMy41LTQuMzc1QTEsMSwwLDAsMCwyNiw4SDlWN0ExLDEsMCwwLDAsOSw1SDdBMSwxLDAsMCwwLDcsN1YyNUg2YTEsMSwwLDAsMCwwLDJoNGExLDEsMCwwLDAsMC0ySDlWMjBIMjZhMSwxLDAsMCwwLC43ODEtMS42MjVaTTksMThWMTBIMjMuOTE5bC0yLjcsMy4zNzVhMSwxLDAsMCwwLDAsMS4yNUwyMy45MTksMThaIi8+PC9zdmc+';
+
+const isThereABombInThatPosition = (matrix, row, column) => {
+    const { value } = matrix[row][column];
+
+    return value == 'B'; 
+};
+
 
 const insertBombs = (matrix) => {
     
-    let newMatrix = matrix;
-    if(matrix.length > 0){
-        let bombPositions = [];
+    let bombInsertedCount = 0;
 
-        while(bombPositions.length < BOMBS_TOTAL) {
-            const i = Math.floor(Math.random() * matrix.length);
-            const j = Math.floor(Math.random() * matrix[0].length);
-
-            if(bombPositions.filter((bomb)=>{if(bomb.i == i && bomb.j) return {i, j};}).length == 0) {
-
-                bombPositions.push({i, j});
-                newMatrix[i][j].value = 'B'; 
-                newMatrix = insertNumbers(newMatrix, i, j);
-            }
-        }
-    }
-    return  newMatrix;
-};
-
-const insertNumbers = (matrix, i, j) => {
-    let newMatrix = matrix;
-
-    let positions = [];
-
-    for(let y = i - 1; y <= i + 1; y++) {
+    while(bombInsertedCount < BOMBS_TOTAL) {
+        const row = Math.floor(Math.random() * matrix.length);
+        const column = Math.floor(Math.random() * matrix[0].length);
         
-        for(let x = j - 1; x <= j + 1; x++) {
-            
-            positions.push({i: y, j: x});
-            if(!(y == i && x == j))
-                if((y >= 0 && y < matrix.length) && (x >= 0 && x < matrix[i].length))
-                {
-                    if(newMatrix[y][x].value != 'B') {
-                        if(newMatrix[y][x].value)
-                            newMatrix[y][x].value = newMatrix[y][x].value + 1;
-                        else
-                            newMatrix[y][x].value = 1;
-                    }
-                }
+        if(!isThereABombInThatPosition(matrix, row, column)) {
+
+            matrix[row][column].value = 'B'; 
+            matrix = insertNumbersAroundTheBomb(matrix, row, column);
+            bombInsertedCount++;
         }
     }
     
-    return newMatrix;
+    return  matrix;
+};
+
+const insertNumbersAroundTheBomb = (matrix, bombRow, bombColumn) => {
+
+    const ROW_FIRST = bombRow - 1;
+    const ROW_LAST = bombRow + 1; 
+    const COLUMN_FIRST = bombColumn - 1;
+    const COLUMN_LAST = bombColumn + 1;
+    
+    for(let numberRow = ROW_FIRST; numberRow <= ROW_LAST; numberRow++)
+        for(let numberColumn = COLUMN_FIRST; numberColumn <= COLUMN_LAST; numberColumn++)            
+            if(!isThereABombInThatPosition(matrix,numberRow, numberColumn))
+                if(doesThisSquareExistInTheMatrix(matrix, numberRow, numberColumn))
+                    matrix = insertNumberInSquad(matrix, numberRow, numberColumn);
+    return matrix;
+};
+
+const doesThisSquareExistInTheMatrix = (matrix, squadRow, squadColumn) => {
+    const rowExists = squadRow >= 0 && squadRow < matrix.length;
+    const columnExists = rowExists && (squadColumn >= 0 && squadColumn < matrix[squadRow].length);
+
+    return rowExists && columnExists;
+};
+
+const insertNumberInSquad = (matrix, squadRow, squadColumn) => {
+    const { value } = matrix[squadRow][squadColumn];
+    
+    if(value == 'B') return matrix;
+    
+    let numberInserted = 1;
+    
+    if(value)
+        numberInserted = value + numberInserted;
+    
+    matrix[squadRow][squadColumn].value = numberInserted;
+
+    return matrix;
 };
 
 
@@ -89,7 +107,7 @@ const render = (matrix) => {
                 
                 let flagImg = document.createElement('img');
                 
-                flagImg.src = 'data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMjMuMjgsMTRsMy41LTQuMzc1QTEsMSwwLDAsMCwyNiw4SDlWN0ExLDEsMCwwLDAsOSw1SDdBMSwxLDAsMCwwLDcsN1YyNUg2YTEsMSwwLDAsMCwwLDJoNGExLDEsMCwwLDAsMC0ySDlWMjBIMjZhMSwxLDAsMCwwLC43ODEtMS42MjVaTTksMThWMTBIMjMuOTE5bC0yLjcsMy4zNzVhMSwxLDAsMCwwLDAsMS4yNUwyMy45MTksMThaIi8+PC9zdmc+';
+                flagImg.src = FLAG_IMG_BASE_64;
                 squad.appendChild(flagImg);
             }else {
                 squad.classList.remove('isFlaged');
@@ -99,7 +117,7 @@ const render = (matrix) => {
                 squad.className = squad.className + ' bomb';
                 squad.innerHTML = '';
                 let bombImg = document.createElement('img');
-                bombImg.src = 'data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYwIDYwIiB2aWV3Qm94PSIwIDAgNjAgNjAiPjxwYXRoIGQ9Ik01MC40NTAyNTYzIDEwLjA3MTQxMTFjLS4xOTAwMDI0LS4zODk5NTM2LS42MTk5OTUxLS41OTk5NzU2LTEuMDQwMDM5MS0uNTM5OTc4bC0zLjk2OTk3MDcuNjE5OTk1MUw0My42MzAyNDkgNi41ODE0MjA5Yy0uMTkwMDAyNC0uMzkwMDE0Ni0uNjA5OTg1NC0uNjA5OTg1NC0xLjAzOTk3OC0uNTM5OTc4LS40MzAwNTM3LjA1OTk5NzYtLjc3MDAxOTUuMzk5OTYzNC0uODQwMDI2OS44MzAwMTcxbC0uNjQwMDE0NiAzLjk0OTk1MTItMy45Njk5NzA3LjYxOTk5NTFjLS40MjAwNDM5LjA3MDAwNzMtLjc2MDAwOTguNDAwMDI0NC0uODMwMDE3MS44MzAwMTcxcy4xNTAwMjQ0Ljg1MDAzNjYuNTMwMDI5MyAxLjA0OTk4NzhsMS4zNTUxNjM2LjY5Mjc0OWMtLjA5ODQ0OTcuMDQ5NjIxNi0uMTk2Nzc3My4xMDgyNzY0LS4yOTUxNjYuMTY3Mjk3NC0yLjEyMDA1NjIgMS4yODk5NzgtMy4zMjAwMDczIDQuMDcwMDA3My0zLjg3MDA1NjIgNS42OTk5NTEybC0yLjkyOTk5MjctMS42NTk5NzMxYy0uNDc5OTgwNS0uMjcwMDE5NS0xLjA4OTk2NTgtLjA5OTk3NTYtMS4zNjk5OTUxLjM4MDAwNDlsLTEuNDUwMDEyMiAyLjU0OTk4NzhjMS44ODAwMDQ5LjM1MDAzNjYgMy43MDAwMTIyIDEuMDIwMDE5NSA1LjM4MDAwNDkgMS45NzAwMzE3IDEuNzEwMDIyLjk2OTk3MDcgMy4yMDAwMTIyIDIuMTkwMDAyNCA0LjQ0MDAwMjQgMy41ODk5NjU4bDEuNDUwMDEyMi0yLjU1OTk5NzZjLjI3MDAxOTUtLjQ3OTk4MDUuMTAwMDM2Ni0xLjA4OTk2NTgtLjM4MDAwNDktMS4zNTk5ODU0bC0zLjM1OTk4NTQtMS45MDAwMjQ0Yy40NTAwMTIyLTEuNDc5OTgwNSAxLjUtNC4wMTAwMDk4IDMuMTQwMDE0Ni01LjAxMDAwOTguNDQ5OTUxMi0uMjc5OTY4My45Mjk5MzE2LS40MTk5ODI5IDEuNDE5ODYwOC0uNDE5OTgyOWwtLjU4OTkwNDggMy42NTAwMjQ0Yy0uMDY5OTQ2My40Mjk5OTI3LjE0MDAxNDYuODQ5OTc1Ni41MzAwMjkzIDEuMDQ5OTg3OC4xNDAwMTQ2LjA3MDAwNzMuMjk5OTg3OC4xMDk5ODU0LjQ1MDAxMjIuMTA5OTg1NC4yNjAwMDk4IDAgLjUxOTk1ODUtLjA5OTk3NTYuNzA5OTYwOS0uMjg5OTc4bDIuODQwMDI2OS0yLjgzMDAxNzEgMy41NzAwMDczIDEuODMwMDE3MWMuMzkwMDE0Ni4yMDAwMTIyLjg1OTk4NTQuMTMwMDA0OSAxLjE1OTk3MzEtLjE3OTk5MjcuMzA5OTk3Ni0uMjk5OTg3OC4zOTAwMTQ2LS43NzAwMTk1LjE5MDAwMjQtMS4xNjAwMzQybC0xLjc5OTk4NzgtMy41Nzk5NTYxIDIuODQwMDI2OS0yLjgzMDAxNzFDNTAuNTcwMjUxNSAxMC45MjE0NDc4IDUwLjY1MDI2ODYgMTAuNDYxNDI1OCA1MC40NTAyNTYzIDEwLjA3MTQxMTF6TTMyLjY3MDIyNzEgMjQuODYxNDUwMmMtNy40Njk5NzA3LTQuMjMwMDQxNS0xNi45ODk5OTAyLTEuNTkwMDI2OS0yMS4yMTk5NzA3IDUuODc5OTQzOC00LjIyMDAzMTcgNy40NzAwMzE3LTEuNTgwMDE3MSAxNi45OTAwNTEzIDUuODkwMDE0NiAyMS4yMjAwMzE3IDIuNDA5OTczMSAxLjM1OTk4NTQgNS4wMzk5NzggMi4wMTAwMDk4IDcuNjM5OTUzNiAyLjAxMDAwOTggNS40Mjk5OTI3IDAgMTAuNzEwMDIyLTIuODQwMDI2OSAxMy41NzAwMDczLTcuOTAwMDI0NEM0Mi43ODAyMTI0IDM4LjYwMTQ0MDQgNDAuMTQwMjU4OCAyOS4wOTE0MzA3IDMyLjY3MDIyNzEgMjQuODYxNDUwMnpNMjAuOTYwMjY2MSA0Ny41OTE0MzA3Yy0uMTgwMDUzNy4zMjAwMDczLS41MjAwMTk1LjUtLjg2OTk5NTEuNS0uMTcwMDQzOSAwLS4zNDAwMjY5LS4wNDAwMzkxLS40OTAwNTEzLS4xMzAwMDQ5LTUuNDQ5OTUxMi0zLjA4MDAxNzEtNy4zODAwMDQ5LTEwLjAyMDAxOTUtNC4yODk5NzgtMTUuNDcwMDMxNy4yNzAwMTk1LS40Nzk5ODA1Ljg4MDAwNDktLjY0OTk2MzQgMS4zNTk5ODU0LS4zNzk5NDM4LjQ4MDA0MTUuMjY5OTU4NS42NTAwMjQ0Ljg3OTk0MzguMzgwMDA0OSAxLjM1OTk4NTQtMi41Mzk5NzggNC40ODk5OTAyLS45NTk5NjA5IDEwLjIwOTk2MDkgMy41MzAwMjkzIDEyLjc1QzIxLjA2MDI0MTcgNDYuNDkxMzk0IDIxLjIzMDIyNDYgNDcuMTAxNDQwNCAyMC45NjAyNjYxIDQ3LjU5MTQzMDd6Ii8+PC9zdmc+';
+                bombImg.src = BOMB_IMG_BASE_64;
                 squad.appendChild(bombImg);
             }
             if(matrix[i][j].value == 1 && matrix[i][j].isActive) {
