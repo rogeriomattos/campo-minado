@@ -4,7 +4,7 @@ const BOMB_IMG_BASE_64 = 'data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDo
 const FLAG_IMG_BASE_64 = 'data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMjMuMjgsMTRsMy41LTQuMzc1QTEsMSwwLDAsMCwyNiw4SDlWN0ExLDEsMCwwLDAsOSw1SDdBMSwxLDAsMCwwLDcsN1YyNUg2YTEsMSwwLDAsMCwwLDJoNGExLDEsMCwwLDAsMC0ySDlWMjBIMjZhMSwxLDAsMCwwLC43ODEtMS42MjVaTTksMThWMTBIMjMuOTE5bC0yLjcsMy4zNzVhMSwxLDAsMCwwLDAsMS4yNUwyMy45MTksMThaIi8+PC9zdmc+';
 
 const isThereABombInThatPosition = (matrix, row, column) => {
-    const { value } = matrix[row][column];
+   const { value } = matrix[row][column];
 
     return value == 'B'; 
 };
@@ -15,10 +15,11 @@ const insertBombs = (matrix) => {
     let bombInsertedCount = 0;
 
     while(bombInsertedCount < BOMBS_TOTAL) {
+        
         const row = Math.floor(Math.random() * matrix.length);
         const column = Math.floor(Math.random() * matrix[0].length);
         
-        if(!isThereABombInThatPosition(matrix, row, column)) {
+        if(doesThisSquareExistInTheMatrix(matrix, row, column) && !isThereABombInThatPosition(matrix, row, column)) {
 
             matrix[row][column].value = 'B'; 
             matrix = insertNumbersAroundTheBomb(matrix, row, column);
@@ -38,8 +39,8 @@ const insertNumbersAroundTheBomb = (matrix, bombRow, bombColumn) => {
     
     for(let numberRow = ROW_FIRST; numberRow <= ROW_LAST; numberRow++)
         for(let numberColumn = COLUMN_FIRST; numberColumn <= COLUMN_LAST; numberColumn++)            
+        if(doesThisSquareExistInTheMatrix(matrix, numberRow, numberColumn))
             if(!isThereABombInThatPosition(matrix,numberRow, numberColumn))
-                if(doesThisSquareExistInTheMatrix(matrix, numberRow, numberColumn))
                     matrix = insertNumberInSquad(matrix, numberRow, numberColumn);
     return matrix;
 };
@@ -47,7 +48,7 @@ const insertNumbersAroundTheBomb = (matrix, bombRow, bombColumn) => {
 const doesThisSquareExistInTheMatrix = (matrix, squadRow, squadColumn) => {
     const rowExists = squadRow >= 0 && squadRow < matrix.length;
     const columnExists = rowExists && (squadColumn >= 0 && squadColumn < matrix[squadRow].length);
-
+    
     return rowExists && columnExists;
 };
 
