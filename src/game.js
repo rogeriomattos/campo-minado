@@ -230,7 +230,7 @@ const activeSquad = (matrix, i, j) => {
 
 
 const activeAllSquad = (matrix) => {
-    return matrix.map((row)=>(row.map((squad)=> ({...squad, isActive: true}))));
+    return matrix.map((row)=>(row.map((squad)=> ({value: squad.value,  isFlaged: squad.isFlaged, isActive: true}))));
 };
 
 const clear = () => {
