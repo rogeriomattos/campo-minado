@@ -4,11 +4,8 @@ body {
     color:#00000099;
 }
 
-#campo-minado {
 
-}
-
-#campo-minado header {
+header {
     
     border:solid 1px #636363;
     padding: 5px 10px;
@@ -16,19 +13,19 @@ body {
     margin-bottom: 10px;
 }
 
-#campo-minado .actions {
+.actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#campo-minado .actions #timer-game{
+.actions #timer-game{
     font-size: 20px;
     padding: 10px 20px;
     border: solid 1px #000;
 }
 
-#campo-minado .actions input[type="button"] {
+.actions input[type="button"] {
     background: #fff;
     font-weight: 400;
     border-radius: 4px;
@@ -36,16 +33,16 @@ body {
     padding:  11px 21px;
 }
 
-#campo-minado .game {
+.game {
 
 }
 
-#campo-minado .game .row { 
+.game .row { 
     display: flex;
     justify-content: center;
 }
 
-#campo-minado .game .row .squad { 
+.game .row .squad { 
     width: 35px;
     height: 35px;
     box-sizing: border-box;
@@ -58,21 +55,21 @@ body {
     cursor: pointer;
 }
 
-#campo-minado .game .row .squad:hover { 
+.game .row .squad:hover { 
     background: #8f8f8f;
 }
 
-#campo-minado .game .row .squad.isActive { 
+.game .row .squad.isActive { 
     background: #a5a5a5;
     cursor: default;
     border: solid #696969 .5px;
 }
 
-#campo-minado .game .row .squad.isActive:hover { 
+.game .row .squad.isActive:hover { 
     background: #a5a5a5;
 }
 
 
-#campo-minado .game .row .squad.bomb {
+.game .row .squad.bomb {
     color: red;
 }
