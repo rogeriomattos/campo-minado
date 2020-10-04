@@ -45,6 +45,7 @@ Por último, para executar o jogo basta rodar o seguinte comando:
 As seguintes ferramentas foram usadas na construção do projeto:
 
 - [Electron](https://www.electronjs.org/)
+- [Webpack](https://webpack.js.org/)
 - [Node.js](https://nodejs.org/en/)
 
 
