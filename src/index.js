@@ -1,173 +1,31 @@
+import Render from './render';
+import timer from './timer';
+import createGame from './game';
 const BOMBS_TOTAL = 10;
 const DIMENSOES = {rows: 9, columns: 9};
-const BOMB_IMG_BASE_64 = 'data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYwIDYwIiB2aWV3Qm94PSIwIDAgNjAgNjAiPjxwYXRoIGQ9Ik01MC40NTAyNTYzIDEwLjA3MTQxMTFjLS4xOTAwMDI0LS4zODk5NTM2LS42MTk5OTUxLS41OTk5NzU2LTEuMDQwMDM5MS0uNTM5OTc4bC0zLjk2OTk3MDcuNjE5OTk1MUw0My42MzAyNDkgNi41ODE0MjA5Yy0uMTkwMDAyNC0uMzkwMDE0Ni0uNjA5OTg1NC0uNjA5OTg1NC0xLjAzOTk3OC0uNTM5OTc4LS40MzAwNTM3LjA1OTk5NzYtLjc3MDAxOTUuMzk5OTYzNC0uODQwMDI2OS44MzAwMTcxbC0uNjQwMDE0NiAzLjk0OTk1MTItMy45Njk5NzA3LjYxOTk5NTFjLS40MjAwNDM5LjA3MDAwNzMtLjc2MDAwOTguNDAwMDI0NC0uODMwMDE3MS44MzAwMTcxcy4xNTAwMjQ0Ljg1MDAzNjYuNTMwMDI5MyAxLjA0OTk4NzhsMS4zNTUxNjM2LjY5Mjc0OWMtLjA5ODQ0OTcuMDQ5NjIxNi0uMTk2Nzc3My4xMDgyNzY0LS4yOTUxNjYuMTY3Mjk3NC0yLjEyMDA1NjIgMS4yODk5NzgtMy4zMjAwMDczIDQuMDcwMDA3My0zLjg3MDA1NjIgNS42OTk5NTEybC0yLjkyOTk5MjctMS42NTk5NzMxYy0uNDc5OTgwNS0uMjcwMDE5NS0xLjA4OTk2NTgtLjA5OTk3NTYtMS4zNjk5OTUxLjM4MDAwNDlsLTEuNDUwMDEyMiAyLjU0OTk4NzhjMS44ODAwMDQ5LjM1MDAzNjYgMy43MDAwMTIyIDEuMDIwMDE5NSA1LjM4MDAwNDkgMS45NzAwMzE3IDEuNzEwMDIyLjk2OTk3MDcgMy4yMDAwMTIyIDIuMTkwMDAyNCA0LjQ0MDAwMjQgMy41ODk5NjU4bDEuNDUwMDEyMi0yLjU1OTk5NzZjLjI3MDAxOTUtLjQ3OTk4MDUuMTAwMDM2Ni0xLjA4OTk2NTgtLjM4MDAwNDktMS4zNTk5ODU0bC0zLjM1OTk4NTQtMS45MDAwMjQ0Yy40NTAwMTIyLTEuNDc5OTgwNSAxLjUtNC4wMTAwMDk4IDMuMTQwMDE0Ni01LjAxMDAwOTguNDQ5OTUxMi0uMjc5OTY4My45Mjk5MzE2LS40MTk5ODI5IDEuNDE5ODYwOC0uNDE5OTgyOWwtLjU4OTkwNDggMy42NTAwMjQ0Yy0uMDY5OTQ2My40Mjk5OTI3LjE0MDAxNDYuODQ5OTc1Ni41MzAwMjkzIDEuMDQ5OTg3OC4xNDAwMTQ2LjA3MDAwNzMuMjk5OTg3OC4xMDk5ODU0LjQ1MDAxMjIuMTA5OTg1NC4yNjAwMDk4IDAgLjUxOTk1ODUtLjA5OTk3NTYuNzA5OTYwOS0uMjg5OTc4bDIuODQwMDI2OS0yLjgzMDAxNzEgMy41NzAwMDczIDEuODMwMDE3MWMuMzkwMDE0Ni4yMDAwMTIyLjg1OTk4NTQuMTMwMDA0OSAxLjE1OTk3MzEtLjE3OTk5MjcuMzA5OTk3Ni0uMjk5OTg3OC4zOTAwMTQ2LS43NzAwMTk1LjE5MDAwMjQtMS4xNjAwMzQybC0xLjc5OTk4NzgtMy41Nzk5NTYxIDIuODQwMDI2OS0yLjgzMDAxNzFDNTAuNTcwMjUxNSAxMC45MjE0NDc4IDUwLjY1MDI2ODYgMTAuNDYxNDI1OCA1MC40NTAyNTYzIDEwLjA3MTQxMTF6TTMyLjY3MDIyNzEgMjQuODYxNDUwMmMtNy40Njk5NzA3LTQuMjMwMDQxNS0xNi45ODk5OTAyLTEuNTkwMDI2OS0yMS4yMTk5NzA3IDUuODc5OTQzOC00LjIyMDAzMTcgNy40NzAwMzE3LTEuNTgwMDE3MSAxNi45OTAwNTEzIDUuODkwMDE0NiAyMS4yMjAwMzE3IDIuNDA5OTczMSAxLjM1OTk4NTQgNS4wMzk5NzggMi4wMTAwMDk4IDcuNjM5OTUzNiAyLjAxMDAwOTggNS40Mjk5OTI3IDAgMTAuNzEwMDIyLTIuODQwMDI2OSAxMy41NzAwMDczLTcuOTAwMDI0NEM0Mi43ODAyMTI0IDM4LjYwMTQ0MDQgNDAuMTQwMjU4OCAyOS4wOTE0MzA3IDMyLjY3MDIyNzEgMjQuODYxNDUwMnpNMjAuOTYwMjY2MSA0Ny41OTE0MzA3Yy0uMTgwMDUzNy4zMjAwMDczLS41MjAwMTk1LjUtLjg2OTk5NTEuNS0uMTcwMDQzOSAwLS4zNDAwMjY5LS4wNDAwMzkxLS40OTAwNTEzLS4xMzAwMDQ5LTUuNDQ5OTUxMi0zLjA4MDAxNzEtNy4zODAwMDQ5LTEwLjAyMDAxOTUtNC4yODk5NzgtMTUuNDcwMDMxNy4yNzAwMTk1LS40Nzk5ODA1Ljg4MDAwNDktLjY0OTk2MzQgMS4zNTk5ODU0LS4zNzk5NDM4LjQ4MDA0MTUuMjY5OTU4NS42NTAwMjQ0Ljg3OTk0MzguMzgwMDA0OSAxLjM1OTk4NTQtMi41Mzk5NzggNC40ODk5OTAyLS45NTk5NjA5IDEwLjIwOTk2MDkgMy41MzAwMjkzIDEyLjc1QzIxLjA2MDI0MTcgNDYuNDkxMzk0IDIxLjIzMDIyNDYgNDcuMTAxNDQwNCAyMC45NjAyNjYxIDQ3LjU5MTQzMDd6Ii8+PC9zdmc+';
-const FLAG_IMG_BASE_64 = 'data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMjMuMjgsMTRsMy41LTQuMzc1QTEsMSwwLDAsMCwyNiw4SDlWN0ExLDEsMCwwLDAsOSw1SDdBMSwxLDAsMCwwLDcsN1YyNUg2YTEsMSwwLDAsMCwwLDJoNGExLDEsMCwwLDAsMC0ySDlWMjBIMjZhMSwxLDAsMCwwLC43ODEtMS42MjVaTTksMThWMTBIMjMuOTE5bC0yLjcsMy4zNzVhMSwxLDAsMCwwLDAsMS4yNUwyMy45MTksMThaIi8+PC9zdmc+';
-
-const isThereABombInThatPosition = (matrix, row, column) => {
-   const { value } = matrix[row][column];
-
-    return value == 'B'; 
-};
 
 
-const insertBombs = (matrix) => {
+const onClickSquad = (matrix, i, j) => {
     
-    let bombInsertedCount = 0;
-
-    while(bombInsertedCount < BOMBS_TOTAL) {
-        
-        const row = Math.floor(Math.random() * matrix.length);
-        const column = Math.floor(Math.random() * matrix[0].length);
-        
-        if(doesThisSquareExistInTheMatrix(matrix, row, column) && !isThereABombInThatPosition(matrix, row, column)) {
-
-            matrix[row][column].value = 'B'; 
-            matrix = insertNumbersAroundTheBomb(matrix, row, column);
-            bombInsertedCount++;
-        }
+    if(matrix.IsActiveCount() == 0){
+        timerGame.pause();
+        timerGame.resume();
     }
-    
-    return  matrix;
+    activeSquad(matrix, i, j);
 };
 
-const insertNumbersAroundTheBomb = (matrix, bombRow, bombColumn) => {
+const onFlag = (matrix, i, j) => {
+    if(matrix[i][j].isActive || matrix[i][j].isFlag)
+        matrix[i][j].setIsFlag(false);
+    else
+        matrix[i][j].setIsFlag(true);
 
-    const ROW_FIRST = bombRow - 1;
-    const ROW_LAST = bombRow + 1; 
-    const COLUMN_FIRST = bombColumn - 1;
-    const COLUMN_LAST = bombColumn + 1;
-    
-    for(let numberRow = ROW_FIRST; numberRow <= ROW_LAST; numberRow++)
-        for(let numberColumn = COLUMN_FIRST; numberColumn <= COLUMN_LAST; numberColumn++)            
-        if(doesThisSquareExistInTheMatrix(matrix, numberRow, numberColumn))
-            if(!isThereABombInThatPosition(matrix,numberRow, numberColumn))
-                    matrix = insertNumberInSquad(matrix, numberRow, numberColumn);
-    return matrix;
-};
-
-const doesThisSquareExistInTheMatrix = (matrix, squadRow, squadColumn) => {
-    const rowExists = squadRow >= 0 && squadRow < matrix.length;
-    const columnExists = rowExists && (squadColumn >= 0 && squadColumn < matrix[squadRow].length);
-    
-    return rowExists && columnExists;
-};
-
-const insertNumberInSquad = (matrix, squadRow, squadColumn) => {
-    const { value } = matrix[squadRow][squadColumn];
-    
-    if(value == 'B') return matrix;
-    
-    let numberInserted = 1;
-    
-    if(value)
-        numberInserted = value + numberInserted;
-    
-    matrix[squadRow][squadColumn].value = numberInserted;
-
-    return matrix;
-};
-
-
-const createGame = (rows, columns) => {
-    let matrix = [];
-
-    for(let i = 0; i < rows; i++){
-        matrix.push([]);
-        for(let j = 0; j < columns; j++)
-        {
-            matrix[i].push({value: undefined, isActive: false, isFlaged: false});
-        }
-    }
-
-    matrix = insertBombs(matrix);
-
-    return matrix;
-};
-
-const render = (matrix) => {
-    
-    let boardElement = document.getElementById('board');
-
-    for(let i = 0; i < matrix.length; i++){
-        let row = document.createElement('div');
-        row.className = 'row';
-        boardElement.appendChild(row);
-        for(let j = 0; j < matrix[i].length; j++)
-        {
-            let squad = document.createElement('div');
-            squad.className = 'squad';
-            
-            if(matrix[i][j].isActive) {
-                squad.innerHTML = (matrix[i][j].value)?matrix[i][j].value:'';
-                squad.className = squad.className + ' isActive';
-            }    
-
-            if(!matrix[i][j].isActive && matrix[i][j].isFlaged){
-                squad.innerHTML = '';
-                squad.className = squad.className + ' isFlaged';
-                
-                let flagImg = document.createElement('img');
-                
-                flagImg.src = FLAG_IMG_BASE_64;
-                squad.appendChild(flagImg);
-            }else {
-                squad.classList.remove('isFlaged');
-            }
-            
-            if(matrix[i][j].value == 'B' && matrix[i][j].isActive) {
-                squad.className = squad.className + ' bomb';
-                squad.innerHTML = '';
-                let bombImg = document.createElement('img');
-                bombImg.src = BOMB_IMG_BASE_64;
-                squad.appendChild(bombImg);
-            }
-            if(matrix[i][j].value == 1 && matrix[i][j].isActive) {
-                squad.style.color = 'blue';
-            }
-            if(matrix[i][j].value == 2 && matrix[i][j].isActive) {
-                squad.style.color = 'green';
-            }
-            if(matrix[i][j].value == 3 && matrix[i][j].isActive) {
-                squad.style.color = 'yellow';
-            }
-
-            squad.addEventListener('click', ( event) => {
-                
-                const count = isActiveCount(matrix);
-
-                if(count == 0){
-                    timerGame.pause();
-                    timerGame.resume();
-                }
-                activeSquad(matrix, i, j);
-            });
-            squad.addEventListener('contextmenu', (e)=>{
-                e.preventDefault();
-                
-                if(matrix[i][j].isActive || matrix[i][j].isFlaged)
-                    matrix[i][j].isFlaged = false;
-                else
-                    matrix[i][j].isFlaged = true;
-
-                refresh(matrix);
-            });
-            row.appendChild(squad);
-        }
-    }
-};
-
-const isActiveCount =  (matrix) =>{
-    let count = 0;
-    for(let i = 0; i < matrix.length; i++)
-        for(let j = 0; j < matrix[i].length; j++)
-            if(matrix[i][j].isActive)
-                count++;
-    return count;
+    refresh(matrix);
 };
 
 const activeBlankSquad = (matrix, i, j) => {
     if(!matrix[i][j].isActive) {
-        matrix[i][j].isActive = true;
+        matrix[i][j].setIsActive(true);
        
         if(!matrix[i][j].value){
             if(i >= 0 && i <= matrix.length) {
@@ -228,11 +86,6 @@ const activeSquad = (matrix, i, j) => {
     }
 };
 
-
-const activeAllSquad = (matrix) => {
-    return matrix.map((row)=>(row.map((squad)=> ({value: squad.value,  isFlaged: squad.isFlaged, isActive: true}))));
-};
-
 const clear = () => {
     document.getElementById('board').innerHTML = '';
 };
@@ -243,47 +96,13 @@ const refresh = (matrix) => {
         renderVictory(matrix);
     }
     else
-        render(matrix);
+        Render(matrix, onClickSquad, onFlag);
 
-};
-
-
-const timer = (callback, delay) => {
-    var timerId;
-    var start;
-    var remaining = delay;
-  
-    const pause =  () => {
-      window.clearTimeout(timerId);
-      remaining -= new Date() - start;
-    };
-  
-    const resume =  () => {
-      start = new Date();
-      timerId = window.setTimeout(() => {
-        remaining = delay;
-        resume();
-        callback();
-      }, remaining);
-    };
-
-    
-  
-    const reset = () => {
-      remaining = delay;
-    };
-
-    return {
-        pause, 
-        resume, 
-        reset
-    };
-};
-  
+};  
   
 let count = 0;
 
-const timerGame = timer(() => {
+const renderClock = () => {
     count++;
     
     let timerElement = document.getElementById('timer-game');
@@ -292,7 +111,10 @@ const timerGame = timer(() => {
     const seconds = count - (minutes * 60);
     
     timerElement.innerHTML = ((minutes < 10)?'0':'') + minutes + ':' + ((seconds < 10)?'0':'') + seconds;
-}, 1000);
+};
+
+const timerGame = timer(renderClock, 1000);
+
 
 const start = () => {
     count = 0;
@@ -303,33 +125,34 @@ const start = () => {
 
 const gameOver = (matrix) => {
     timerGame.pause();
-    matrix = activeAllSquad(matrix);
+    //matrix = activeAllSquad(matrix);
+    matrix.ActiveAllSquad();
     refresh(matrix);
     alert('GAME OVER'); 
 };
 
 const verifyVictory = (matrix) => {
-    const activeCount = isActiveCount(matrix);
-
+    
     const squadCount = DIMENSOES.rows * DIMENSOES.columns;
 
-    return squadCount - activeCount == BOMBS_TOTAL;
+    return squadCount - matrix.IsActiveCount() == BOMBS_TOTAL;
 };
 
 const renderVictory = (matrix) => {
     timerGame.pause();
-    matrix = activeAllSquad(matrix);
-    render(matrix);
+    //matrix = activeAllSquad(matrix);
+    matrix.ActiveAllSquad();
+    Render(matrix, onClickSquad, onFlag);
     alert('Você venceu');
 };
 
-render(createGame(DIMENSOES.rows, DIMENSOES.columns));  
+Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad, onFlag);
 
 document.getElementById('btn-new-game')
 .addEventListener('click', ()=> {
     clear();
     start();
-    render(createGame(DIMENSOES.rows, DIMENSOES.columns));  
+    Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad, onFlag);  
 
 });
 

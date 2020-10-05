@@ -2,7 +2,7 @@ class Squad {
     constructor(value = undefined, isActive = false, isFlag = false ) {
         this.value = value;
         this.isActive = isActive;
-        this.isFlag = isFlag;
+        this.isFlag = isFlag; 
     }
 
     setValue(value) {

@@ -1,70 +1,44 @@
-import Render from "./render";
+import Squad from './squad';
 
-const { default: Squad } = require("./squad");
-
-class Game {
-    constructor(options = {numberOfRows: 9, numberOfColumns: 9, numberOfBombs: 10}) {
-        const {numberOfRows, numberOfColumns, numberOfBombs} = options;
-
-        this.rows = numberOfRows;
-        this.columns = numberOfColumns;
-        this.bombs = numberOfBombs;
-        this.matrix = this.createMatrix();
-
-        const render = new Render('app', this.matrix);
-        console.log(render);
-    }
+const game = (numberOfRows, numberOfColumns, numberOfBombs) => {
     
-    createMatrix() {
+    const create = () => {
         let matrix = [];
-        
-        for(let i = 0; i < this.rows; i++){
+
+        for(let i = 0; i < numberOfRows; i++){
             matrix.push([]);
-            for(let j = 0; j < this.columns; j++)
+            for(let j = 0; j < numberOfColumns; j++)
             {
                 matrix[i].push(new Squad());
             }
         }
-        
-        matrix = this.insertBombs(matrix);
+
+        matrix = insertBombs(matrix);
 
         return matrix;
-    }
+    };
 
-    insertBombs(matrix){
+    const insertBombs = (matrix) => {
     
         let bombInsertedCount = 0;
     
-        while(bombInsertedCount < this.bombs) {
+        while(bombInsertedCount < numberOfBombs) {
             
             const row = Math.floor(Math.random() * matrix.length);
             const column = Math.floor(Math.random() * matrix[0].length);
             
-            if(this.doesThisSquareExistInTheMatrix(matrix, row, column) && !this.isThereABombInThatPosition(matrix, row, column)) {
+            if(doesThisSquareExistInTheMatrix(matrix, row, column) && !isThereABombInThatPosition(matrix, row, column)) {
     
                 matrix[row][column].setValue('B'); 
-                matrix = this.insertNumbersAroundTheBomb(matrix, row, column);
+                matrix = insertNumbersAroundTheBomb(matrix, row, column);
                 bombInsertedCount++;
             }
         }
         
         return  matrix;
-    }
+    };
 
-    doesThisSquareExistInTheMatrix(matrix, squadRow, squadColumn) {
-        const rowExists = squadRow >= 0 && squadRow < matrix.length;
-        const columnExists = rowExists && (squadColumn >= 0 && squadColumn < matrix[squadRow].length);
-        
-        return rowExists && columnExists;
-    }
-
-    isThereABombInThatPosition(matrix, row, column) {
-        const { value } = matrix[row][column];
-     
-         return value == 'B'; 
-    }
-
-    insertNumbersAroundTheBomb(matrix, bombRow, bombColumn) {
+    const insertNumbersAroundTheBomb = (matrix, bombRow, bombColumn) => {
 
         const ROW_FIRST = bombRow - 1;
         const ROW_LAST = bombRow + 1; 
@@ -73,13 +47,13 @@ class Game {
         
         for(let numberRow = ROW_FIRST; numberRow <= ROW_LAST; numberRow++)
             for(let numberColumn = COLUMN_FIRST; numberColumn <= COLUMN_LAST; numberColumn++)            
-                if(this.doesThisSquareExistInTheMatrix(matrix, numberRow, numberColumn))
-                    if(!this.isThereABombInThatPosition(matrix,numberRow, numberColumn))
-                            matrix = this.insertNumberInSquad(matrix, numberRow, numberColumn);
+            if(doesThisSquareExistInTheMatrix(matrix, numberRow, numberColumn))
+                if(!isThereABombInThatPosition(matrix,numberRow, numberColumn))
+                        matrix = insertNumberInSquad(matrix, numberRow, numberColumn);
         return matrix;
-    }
+    };
 
-    insertNumberInSquad(matrix, squadRow, squadColumn){
+    const insertNumberInSquad = (matrix, squadRow, squadColumn) => {
         const { value } = matrix[squadRow][squadColumn];
         
         if(value == 'B') return matrix;
@@ -92,11 +66,52 @@ class Game {
         matrix[squadRow][squadColumn].setValue(numberInserted);
     
         return matrix;
-    }
-    
-    start() {
+    };
 
+    const doesThisSquareExistInTheMatrix = (matrix, squadRow, squadColumn) => {
+        const rowExists = squadRow >= 0 && squadRow < matrix.length;
+        const columnExists = rowExists && (squadColumn >= 0 && squadColumn < matrix[squadRow].length);
+        
+        return rowExists && columnExists;
+    };
+
+    const isThereABombInThatPosition = (matrix, row, column) => {
+        const { value } = matrix[row][column];
+     
+         return value == 'B'; 
+    };
+     
+    let matrix = create();
+
+    const insertPropsInArray = () => {
+        matrix.IsActiveCount =  () => {
+            let count = 0;
+            for(let i = 0; i < matrix.length; i++)
+                for(let j = 0; j < matrix[i].length; j++)
+                    if(matrix[i][j].isActive)
+                        count++;
+            return count;
+        };
+    
+        matrix.ActiveAllSquad = () => {
+            matrix =  matrix.map((row)=>
+            (row.map((squad)=> 
+                {
+                    squad.setIsActive(true);
+                    return squad;
+                }
+            )));
+            insertPropsInArray();
+        };
+    
+        matrix.ActiveSquad = (row , column) => {
+    
+        };
     }
+
+    insertPropsInArray();
+
+    return matrix;
 }
 
-export default Game;
+export default game;
