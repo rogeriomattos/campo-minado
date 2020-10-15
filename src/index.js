@@ -14,15 +14,6 @@ const onClickSquad = (matrix, i, j) => {
     activeSquad(matrix, i, j);
 };
 
-const onFlag = (matrix, i, j) => {
-    if(matrix[i][j].isActive || matrix[i][j].isFlag)
-        matrix[i][j].setIsFlag(false);
-    else
-        matrix[i][j].setIsFlag(true);
-
-    refresh(matrix);
-};
-
 const activeBlankSquad = (matrix, i, j) => {
     if(!matrix[i][j].isActive) {
         matrix[i][j].setIsActive(true);
@@ -96,7 +87,7 @@ const refresh = (matrix) => {
         renderVictory(matrix);
     }
     else
-        Render(matrix, onClickSquad, onFlag);
+        Render(matrix, onClickSquad);
 
 };  
   
@@ -142,17 +133,17 @@ const renderVictory = (matrix) => {
     timerGame.pause();
     //matrix = activeAllSquad(matrix);
     matrix.ActiveAllSquad();
-    Render(matrix, onClickSquad, onFlag);
+    Render(matrix, onClickSquad);
     alert('Você venceu');
 };
 
-Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad, onFlag);
+Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad);
 
 document.getElementById('btn-new-game')
 .addEventListener('click', ()=> {
     clear();
     start();
-    Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad, onFlag);  
+    Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad);  
 
 });
 
