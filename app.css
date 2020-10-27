@@ -13,6 +13,45 @@ header {
     margin-bottom: 10px;
 }
 
+.face-container{
+	background: yellow;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+.eyes{
+	display:flex;
+   	justify-content: space-between;
+    width: 25px;
+    margin: 0px auto;
+    padding-top: 15px;
+}
+.eyes > div {
+	background: #000;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+.sad {
+	width: 25px;
+    height: 5px;
+    margin: 0 auto;
+    margin-top: 10px; 
+    border: solid 2.5px #000;
+    border-color: #000 transparent transparent transparent;
+    border-radius: 50%/25px 25px 0 0;
+}
+
+.smile {
+	width: 25px;
+    height: 5px;
+    margin: 0 auto;
+    margin-top: 10px; 
+    border: solid 2.5px #000;
+    border-color: transparent #000 #000 #000;
+    border-radius: 0 0 25px 25px;
+}
+
 .actions {
     display: flex;
     justify-content: space-between;

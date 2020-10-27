@@ -111,8 +111,8 @@ const gameOver = (matrix) => {
     timerGame.pause();
     //matrix = activeAllSquad(matrix);
     matrix.ActiveAllSquad();
-    Screen.Refresh(matrix, onClickSquad);
-    alert('GAME OVER'); 
+    Screen.Refresh(matrix, onClickSquad); 
+    document.getElementById('face-mouth').className = 'sad';
 };
 
 const verifyVictory = (matrix) => {
@@ -126,13 +126,13 @@ const renderVictory = (matrix) => {
     timerGame.pause();
     matrix.ActiveAllSquad();
     Screen.Refresh(matrix, onClickSquad);
-    alert('Você venceu');
 };
 
 Screen.Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad);
 
 document.getElementById('btn-new-game')
 .addEventListener('click', ()=> {
+    document.getElementById('face-mouth').className = 'smile';
     start();
     Screen.Refresh(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad);  
 });
