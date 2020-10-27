@@ -1,4 +1,4 @@
-import Render from './render';
+import * as Screen from './screen';
 import timer from './timer';
 import createGame from './game';
 const BOMBS_TOTAL = 10;
@@ -29,7 +29,10 @@ const activeBlankSquad = (matrix, i, j) => {
                 activeBlankRight(matrix, i, j);
             }
         }
-        refresh(matrix);
+        Screen.Refresh(matrix, onClickSquad);
+        if(verifyVictory(matrix)){
+            renderVictory(matrix);
+        }
     }
 };
 
@@ -72,24 +75,14 @@ const activeSquad = (matrix, i, j) => {
         else {
             matrix[i][j].isActive = true;
 
-            refresh(matrix);
+            Screen.Refresh(matrix, onClickSquad);
+            if(verifyVictory(matrix)){
+                renderVictory(matrix);
+            }
         }
     }
 };
-
-const clear = () => {
-    document.getElementById('board').innerHTML = '';
-};
-
-const refresh = (matrix) => {
-    clear();
-    if(verifyVictory(matrix)){
-        renderVictory(matrix);
-    }
-    else
-        Render(matrix, onClickSquad);
-
-};  
+ 
   
 let count = 0;
 
@@ -118,7 +111,7 @@ const gameOver = (matrix) => {
     timerGame.pause();
     //matrix = activeAllSquad(matrix);
     matrix.ActiveAllSquad();
-    refresh(matrix);
+    Screen.Refresh(matrix, onClickSquad);
     alert('GAME OVER'); 
 };
 
@@ -131,19 +124,16 @@ const verifyVictory = (matrix) => {
 
 const renderVictory = (matrix) => {
     timerGame.pause();
-    //matrix = activeAllSquad(matrix);
     matrix.ActiveAllSquad();
-    Render(matrix, onClickSquad);
+    Screen.Refresh(matrix, onClickSquad);
     alert('Você venceu');
 };
 
-Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad);
+Screen.Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad);
 
 document.getElementById('btn-new-game')
 .addEventListener('click', ()=> {
-    clear();
     start();
-    Render(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad);  
-
+    Screen.Refresh(createGame(DIMENSOES.rows, DIMENSOES.columns, BOMBS_TOTAL), onClickSquad);  
 });
 
