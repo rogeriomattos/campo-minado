@@ -2,6 +2,7 @@
 <p align="center">Jogo de campo minado construído com Electron js</p>
 
 <p align="center">
+  <a href="#sobre-o-jogo">Sobre o jogo</a> •
   <a href="#pré-requisitos">Pré-requisitos</a> • 
   <a href="#como-instalar">Como Instalar</a> •
   <a href="#tecnologias">Tecnologias</a> •
@@ -17,6 +18,9 @@
   
   <img  width="30%" src="./demos/3_tela_final.PNG" />
 </p>
+
+### Sobre o jogo
+Campo minado é um jogo criado por Robert Donner em 1989, esse jogo se tornou muito popular por vir instalado nativamente nas versões anteriores ao Windows 10. O jogo consiste em um tabuleiro a onde são distribuídas aleatoriamente um certo número de bombas. O objetivo do jogador é revelar todas as casas do tabuleiro sem clicar em nenhuma bomba, caso o usuário encontre uma bomba a partida termina e o jogador é perde.
 
 ### Pré-requisitos
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
