@@ -36,7 +36,7 @@ Primeiro baixe o repositório para o seu computador, como mostra abaixo:
 Então, entre na pasta ``campo-minado`` e instale as dependências do projeto, como mostra abaixo:
 ```bash
   cd campo-minado
-  npm istall
+  npm install
 ```
 
 Por último, para executar o jogo basta rodar o seguinte comando:
