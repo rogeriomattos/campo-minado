@@ -66,4 +66,3 @@ Feito por Rogerio Mattos 👋🏽 Entre em contato!
 
 ### Licença
 Este projeto pode ser usado por qualquer pessoa! Licença MIT
-
